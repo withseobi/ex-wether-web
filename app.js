@@ -12,6 +12,7 @@
   const endpoint = 'https://api.weatherapi.com/v1/current.json';
   const useLocalServer = ['127.0.0.1', 'localhost'].includes(window.location.hostname)
     && window.location.protocol === 'http:';
+  const useServer = ['http:', 'https:'].includes(window.location.protocol);
   const errors = {
     1002: 'API 키를 입력해 주세요.',
     1003: '조회 위치가 누락되었습니다.',
@@ -48,10 +49,10 @@
     const timeout = setTimeout(() => controller.abort(), 15000);
     try {
       const params = new URLSearchParams({ key: apiKey, q: '33.4996,126.5312', lang: 'ko', aqi: 'no' });
-      const response = await fetch(useLocalServer ? '/api/current' : `${endpoint}?${params}`, {
+      const response = await fetch(useServer ? '/api/current' : `${endpoint}?${params}`, {
         signal: controller.signal,
         cache: 'no-store',
-        ...(useLocalServer ? {
+        ...(useServer ? {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ key: apiKey })
@@ -65,7 +66,7 @@
         if ([1002, 2006, 2008, 2009].includes(code)) $('settings').open = true;
         throw new Error(errors[code]
           || (code === 'UPSTREAM_TIMEOUT' ? '날씨 서버의 응답이 늦어지고 있습니다. 다시 시도해 주세요.' : '')
-          || (code === 'UPSTREAM_NETWORK' ? '로컬 서버에서 WeatherAPI에 연결하지 못했습니다. 네트워크 연결을 확인해 주세요.' : '')
+          || (code === 'UPSTREAM_NETWORK' ? '날씨 서버에서 WeatherAPI에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.' : '')
           || `날씨 서비스에 연결할 수 없습니다 (HTTP ${response.status}). 잠시 후 다시 시도해 주세요.`);
       }
       const weather = data.current;
@@ -87,6 +88,7 @@
       let message = error.name === 'AbortError' ? '응답이 늦어지고 있습니다. 잠시 후 새로고침해 주세요.'
         : error instanceof TypeError
           ? (useLocalServer ? '앱 실행 창이 닫혔거나 로컬 서버에 연결할 수 없습니다. start.cmd를 다시 실행해 주세요.'
+            : useServer ? '날씨 서버에 연결하지 못했습니다. 인터넷 연결을 확인한 뒤 다시 시도해 주세요.'
             : '브라우저에서 날씨 서버에 연결하지 못했습니다. 날씨앱 폴더의 start.cmd를 실행해 열린 화면에서 다시 연결해 주세요.')
           : error.message;
       if (hasWeather) message += ' 화면에는 이전에 불러온 날씨가 표시됩니다.';
@@ -112,6 +114,9 @@
     loadWeather();
   });
   $('refresh').addEventListener('click', loadWeather);
+  if (useServer && !useLocalServer) {
+    $('connection-help').textContent = '연결이 안 되면 API 키와 인터넷 연결을 확인한 뒤 다시 시도해 주세요.';
+  }
 
   try {
     const savedKey = localStorage.getItem(storageKey);

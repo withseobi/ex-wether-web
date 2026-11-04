@@ -7,7 +7,7 @@
   <meta name="description" content="제주의 현재 기온과 습도, 날씨를 한눈에 확인하세요.">
   <title>지금 제주 날씨는?</title>
   <link rel="stylesheet" href="style.css">
-  <script src="app.js?v=2" defer></script>
+  <script src="app.js?v=3" defer></script>
 </head>
 <body>
   <main class="app">
@@ -47,7 +47,7 @@
         <div class="input-row"><input id="api-key" type="password" placeholder="API 키를 입력해 주세요" autocomplete="off" spellcheck="false" required><button type="submit" id="connect">연결하기</button></div>
         <label class="remember"><input id="remember" type="checkbox"> 이 브라우저에 키 기억하기</label>
         <p class="help">기억하기를 선택하지 않으면 현재 탭에서만 키를 보관합니다.<br>키가 없다면 <a href="https://www.weatherapi.com/signup.aspx" target="_blank" rel="noopener noreferrer">WeatherAPI.com에서 발급받기 ↗</a></p>
-        <p class="help">연결이 안 되면 날씨앱 폴더의 <strong>start.cmd</strong>를 실행하고, 새로 열린 화면에서 키를 입력해 주세요.</p>
+        <p class="help" id="connection-help">연결이 안 되면 날씨앱 폴더의 <strong>start.cmd</strong>를 실행하고, 새로 열린 화면에서 키를 입력해 주세요.</p>
       </form>
     </details>
     <footer>제주의 하늘과 조금 더 가까이.<br><span>날씨 데이터 제공 <a href="https://www.weatherapi.com/" target="_blank" rel="noopener noreferrer">WeatherAPI.com</a></span></footer>

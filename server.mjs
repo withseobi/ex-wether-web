@@ -2,6 +2,7 @@ import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { spawn } from 'node:child_process';
+import { requestWeather } from './lib/weather.mjs';
 
 const root = new URL('./', import.meta.url);
 const port = 8765;
@@ -12,15 +13,6 @@ const staticFiles = new Map([
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
   ['/style.css', ['style.css', 'text/css; charset=utf-8']]
 ]);
-
-async function requestWeather(key) {
-  const params = new URLSearchParams({ key, q: '33.4996,126.5312', lang: 'ko', aqi: 'no' });
-  const response = await fetch(`https://api.weatherapi.com/v1/current.json?${params}`, {
-    signal: AbortSignal.timeout(10000),
-    headers: { Accept: 'application/json' }
-  });
-  return { status: response.status, data: await response.json() };
-}
 
 // 키는 요청 처리 중에만 사용하며 파일이나 로그에 기록하지 않습니다.
 export function createWeatherServer(getWeather = requestWeather) {
