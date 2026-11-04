@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9f3fa">
+  <meta name="description" content="제주의 현재 기온과 습도, 날씨를 한눈에 확인하세요.">
+  <title>지금 제주 날씨는?</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js?v=2" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="brand"><span class="brand-icon" aria-hidden="true">☀</span> 제주, 지금 <span class="brand-en">JEJU WEATHER</span></header>
+    <section class="intro">
+      <p class="eyebrow">잠깐, 제주의 하늘을 확인해 볼까요?</p>
+      <h1>지금 제주 날씨는?</h1>
+      <p class="subtitle">제주도의 오늘을, 가볍게 한눈에.</p>
+    </section>
+
+    <section class="weather-card" aria-label="제주 현재 날씨" aria-busy="false" id="weather-card">
+      <div class="card-top"><span class="location"><span aria-hidden="true">⌖</span> 제주도 · 제주시</span><span class="badge" id="badge">연결 대기</span></div>
+      <div class="sky-art" aria-hidden="true">
+        <svg viewBox="0 0 280 170" fill="none">
+          <circle cx="162" cy="68" r="37" fill="#FFC75A"/>
+          <g stroke="#FFC75A" stroke-width="4" stroke-linecap="round"><path d="M162 15V7M162 129v-8M109 68h-8M223 68h-8M125 31l-6-6M205 111l-6-6M199 31l6-6"/></g>
+          <path d="M80 139a26 26 0 0 1-2-52 38 38 0 0 1 73-8 31 31 0 1 1 15 60H80Z" fill="white"/>
+          <path d="M58 148h136" stroke="#C8DFED" stroke-width="3" stroke-linecap="round"/>
+          <path d="M218 130h13M224 124v12M61 47h9M65.5 42.5v9" stroke="#A2C5DC" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="temperature" aria-label="현재 기온"><span id="temperature">--</span><span class="degree">°C</span></div>
+      <p class="condition" id="condition">제주의 하늘을 기다리는 중</p>
+      <p class="observation">제주시 기준 현재 관측 날씨</p>
+      <div class="metrics">
+        <div class="metric"><span class="metric-label"><span aria-hidden="true">♧</span> 습도</span><strong id="humidity">--%</strong></div>
+        <div class="metric"><span class="metric-label"><span aria-hidden="true">◷</span> 데이터 업데이트</span><strong class="updated" id="updated">--</strong><span class="timezone">한국 시간 기준</span></div>
+      </div>
+      <button class="refresh" id="refresh" type="button"><span class="refresh-icon" aria-hidden="true">↻</span><span id="refresh-label">새로고침</span></button>
+      <p class="status" id="status" role="status" aria-live="polite">API 키를 입력하면 현재 날씨를 불러옵니다.</p>
+    </section>
+
+    <details class="settings" id="settings">
+      <summary>WeatherAPI 연결 설정 <span aria-hidden="true">＋</span></summary>
+      <form id="api-form">
+        <label for="api-key">WeatherAPI.com API 키</label>
+        <div class="input-row"><input id="api-key" type="password" placeholder="API 키를 입력해 주세요" autocomplete="off" spellcheck="false" required><button type="submit" id="connect">연결하기</button></div>
+        <label class="remember"><input id="remember" type="checkbox"> 이 브라우저에 키 기억하기</label>
+        <p class="help">기억하기를 선택하지 않으면 현재 탭에서만 키를 보관합니다.<br>키가 없다면 <a href="https://www.weatherapi.com/signup.aspx" target="_blank" rel="noopener noreferrer">WeatherAPI.com에서 발급받기 ↗</a></p>
+        <p class="help">연결이 안 되면 날씨앱 폴더의 <strong>start.cmd</strong>를 실행하고, 새로 열린 화면에서 키를 입력해 주세요.</p>
+      </form>
+    </details>
+    <footer>제주의 하늘과 조금 더 가까이.<br><span>날씨 데이터 제공 <a href="https://www.weatherapi.com/" target="_blank" rel="noopener noreferrer">WeatherAPI.com</a></span></footer>
+  </main>
+</body>
+</html>
